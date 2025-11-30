@@ -14,3 +14,14 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## MVP 1 - Play a Sudoku Game
+
+This first MVP should be able to simply fetch a Grid to play.
+
+- Load one puzzle (or random puzzle) from a pre-baked JSON.
+- Editable grid, pencil marks, highlight row/col/box, keyboard navigation.
+- Persist current grid in localStorage keyed by puzzle ID.
+- No backend yet.
+
+- UI, state mgmt, local persistence, clean code.
