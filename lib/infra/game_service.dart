@@ -86,6 +86,23 @@ class GameService {
     _log('Game saved for grid ${grid.id}');
   }
 
+  Future<void> updateElapsedTime() async {
+    final elapsedTimeStr = await storageService.load(
+      GameStorageKeys.currentGameElapsedTimeKey,
+    );
+    if (elapsedTimeStr == null) {
+      _log('No elapsed time found to update');
+      return;
+    }
+    final elapsedTime =
+        Duration(milliseconds: int.parse(elapsedTimeStr)) +
+        Duration(seconds: 1);
+    await storageService.save(
+      GameStorageKeys.currentGameElapsedTimeKey,
+      elapsedTime.inMilliseconds.toString(),
+    );
+  }
+
   /// Get the game in progress from storage.
   /// Returns null if no game is in progress.
   Future<Game?> getInProgressGame() async {
