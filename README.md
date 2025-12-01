@@ -25,3 +25,5 @@ This first MVP should be able to simply fetch a Grid to play.
 - No backend yet.
 
 - UI, state mgmt, local persistence, clean code.
+
+- [Source](https://www.kaggle.com/datasets/radcliffe/3-million-sudoku-puzzles-with-ratings) for Sudoku Grids
