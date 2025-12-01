@@ -16,9 +16,10 @@ class GameNotifier extends Notifier<Game> {
     return Game.waiting();
   }
 
-  Future<void> loadGame() async {
+  Future<Game> loadGame() async {
     final game = await gameService.getInProgressGame();
     state = game ?? Game.waiting();
+    return state;
   }
 
   Future<void> saveGame(Game game) async {
@@ -72,9 +73,18 @@ class GameNotifier extends Notifier<Game> {
   }
 
   Future<void> exitGame() async {
-    await gameService.deleteGame();
     final game = Game.waiting();
     state = game; 
+  }
+
+  Future<void> finishGame() async {
+    await gameService.finishGame(state);
+    final game = Game.waiting();
+    state = game;
+  }
+
+  Future<List<Game>> getCompletedPuzzles() async {
+    return gameService.getCompletedGames();
   }
 }
 

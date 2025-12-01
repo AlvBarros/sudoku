@@ -19,11 +19,11 @@ samples, guidance on mobile development, and a full API reference.
 
 This first MVP should be able to simply fetch a Grid to play.
 
+- UI, state mgmt, local persistence, clean code.
 - Load one puzzle (or random puzzle) from a pre-baked JSON.
 - Editable grid, pencil marks, highlight row/col/box, keyboard navigation.
 - Persist current grid in localStorage keyed by puzzle ID.
-- No backend yet.
-
-- UI, state mgmt, local persistence, clean code.
+- Reset and Exit buttons
+- Undo button
 
 - [Source](https://www.kaggle.com/datasets/radcliffe/3-million-sudoku-puzzles-with-ratings) for Sudoku Grids

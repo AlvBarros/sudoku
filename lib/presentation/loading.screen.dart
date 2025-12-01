@@ -9,17 +9,28 @@ class LoadingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final game = ref.read(gameProvider.notifier);
+    final gameNotifier = ref.read(gameProvider.notifier);
 
     return FutureBuilder(
-      future: game.loadGame(),
+      future: gameNotifier.loadGame(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(body: Center(child: CircularProgressIndicator()));
         } else if (snapshot.hasError) {
           return Scaffold(body: Center(child: Text('Error loading grid')));
         } else {
-          return GridScreen();
+          if (snapshot.hasData && !snapshot.data!.grid.isEmpty) {
+            // If no saved game, navigate to New Game Screen
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacementNamed('/continuegame');
+            });
+          }
+          if (snapshot.hasData && snapshot.data!.grid.isEmpty) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pushReplacementNamed('/newgame');
+            });
+          }
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
         }
       },
     );

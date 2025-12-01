@@ -17,6 +17,7 @@ class SudokuGrid {
   /// Each cell contains an integer from 0-9, where 0 represents an empty cell.
   /// Consider the first list as rows and the second list as columns.
   final List<List<int>> grid;
+  final List<List<int>> solution;
 
   /// Checks if the grid is empty (all cells are 0).
   bool get isEmpty {
@@ -52,15 +53,25 @@ class SudokuGrid {
     }
     return quadrant;
   }
+  int getQuadrantIndex(int row, int col) {
+    final quadrantRow = row ~/ 3;
+    final quadrantCol = col ~/ 3;
+    return quadrantRow * 3 + quadrantCol;
+  }
 
   List<int> getRow(int rowIndex) => grid[rowIndex];
   List<int> getColumn(int colIndex) =>
       grid.map((row) => row[colIndex]).toList();
   int getCell(int rowIndex, int colIndex) => grid[rowIndex][colIndex];
+  int getCellFromSolution(int rowIndex, int colIndex) =>
+      solution[rowIndex][colIndex];
 
-  SudokuGrid(this.id, this.difficulty, this.grid) {
+  SudokuGrid(this.id, this.difficulty, this.grid, this.solution) {
     if (grid.length != 9 || grid.any((row) => row.length != 9)) {
       throw ArgumentError('Grid must be a 9x9 matrix.');
+    }
+    if (solution.length != 9 || solution.any((row) => row.length != 9)) {
+      throw ArgumentError('Solution must be a 9x9 matrix.');
     }
   }
 
@@ -124,6 +135,7 @@ class SudokuGrid {
       null,
       SudokuDifficulty.unknown,
       List.generate(9, (_) => List.filled(9, 0)),
+      List.generate(9, (_) => List.filled(9, 0)),
     );
   }
 
@@ -142,6 +154,11 @@ class SudokuGrid {
       (i) => List<int>.from(original.grid[i]),
     );
     newGrid[row][col] = value;
-    return SudokuGrid(original.id, original.difficulty, newGrid);
+    return SudokuGrid(
+      original.id,
+      original.difficulty,
+      newGrid,
+      original.solution,
+    );
   }
 }
