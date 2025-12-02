@@ -12,6 +12,7 @@ import 'package:sudokats/presentation/screens/grid/game_grid.widget.dart';
 import 'package:sudokats/presentation/screens/grid/numpad.widget.dart';
 import 'package:sudokats/presentation/screens/grid/reset.button.dart';
 import 'package:sudokats/presentation/screens/grid/undo.button.dart';
+import 'package:sudokats/presentation/screens/grid/verify.button.dart';
 
 class GridScreen extends ConsumerStatefulWidget {
   const GridScreen({super.key});
@@ -28,6 +29,41 @@ class _GridScreenState extends ConsumerState<GridScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void handleConfirm(
+    BuildContext context,
+    GameNotifier gameNotifier,
+    Game game,
+  ) {
+    final wrongCells = game.checkAndResetIncorrectCells();
+    gameNotifier.saveGame(game);
+    setState(() {
+      selectedCell = null;
+      selectedNumber = null;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$wrongCells incorrect cells were reset.')),
+    );
+  }
+
+  void handleReset(GameNotifier gameNotifier) {
+    gameNotifier.resetGame();
+    setState(() {
+      selectedCell = null;
+      selectedNumber = null;
+    });
+  }
+
+  void handleExit(GameNotifier gameNotifier) {
+    gameNotifier.exitGame();
+    setState(() {
+      selectedCell = null;
+      selectedNumber = null;
+    });
+    if (mounted) {
+      Navigator.of(context).pushReplacementNamed('/home');
+    }
   }
 
   bool handleCellTap(Cell cell, Game game) {
@@ -133,29 +169,12 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ResetButton(
-                          onReset: () {
-                            gameNotifier.resetGame();
-                            setState(() {
-                              selectedCell = null;
-                              selectedNumber = null;
-                            });
-                          },
+                        VerifyButton(
+                          onConfirm: () =>
+                              handleConfirm(context, gameNotifier, game),
                         ),
-                        ExitButton(
-                          onExit: () {
-                            gameNotifier.exitGame();
-                            setState(() {
-                              selectedCell = null;
-                              selectedNumber = null;
-                            });
-                            if (mounted) {
-                              Navigator.of(
-                                context,
-                              ).pushReplacementNamed('/home');
-                            }
-                          },
-                        ),
+                        ResetButton(onReset: () => handleReset(gameNotifier)),
+                        ExitButton(onExit: () => handleExit(gameNotifier)),
                       ],
                     ),
                   ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:sudokats/application/logger.dart';
-import 'package:sudokats/application/providers.dart';
 import 'package:sudokats/presentation/screens/home.screen.dart';
 import 'package:sudokats/presentation/screens/loading.screen.dart';
 import 'package:sudokats/presentation/screens/grid/grid.screen.dart';
@@ -19,10 +18,10 @@ class Sudokat extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeProvider);
+    final brightnessMode = MediaQuery.of(context).platformBrightness;
 
     return MaterialApp(
-      theme: appThemes[themeMode],
+      theme: appThemes[brightnessMode],
       routes: {
         '/loading': (context) => const LoadingScreen(),
         '/home': (context) => const HomeScreen(),

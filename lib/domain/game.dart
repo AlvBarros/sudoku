@@ -330,4 +330,21 @@ class Game {
     result = result.isNotEmpty ? result.substring(1) : result;
     return result;
   }
+
+  int checkAndResetIncorrectCells() {
+    int wrongCellsCount = 0;
+    for (var r = 0; r < 9; r++) {
+      for (var c = 0; c < 9; c++) {
+        final cellKey = '${r}_$c';
+        final cell = cells[cellKey];
+        if (cell != null &&
+            cell.value != null &&
+            cell.value != grid.getCellFromSolution(r, c)) {
+          cell.value = cell.defaultValue;
+          wrongCellsCount++;
+        }
+      }
+    }
+    return wrongCellsCount;
+  }
 }

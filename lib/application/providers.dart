@@ -86,25 +86,6 @@ class GameNotifier extends Notifier<Game> {
   }
 }
 
-class ThemeNotifier extends Notifier<ThemeMode> {
-  @override
-  ThemeMode build() {
-    return ThemeMode.system;
-  }
-
-  void toggleTheme() {
-    state = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-  }
-
-  void setLightTheme() {
-    state = ThemeMode.light;
-  }
-
-  void setDarkTheme() {
-    state = ThemeMode.dark;
-  }
-}
-
 // Global provider for the StorageService
 final storageServiceProvider = Provider<StorageService>((ref) {
   return StorageServiceFactory.create();
@@ -117,9 +98,7 @@ final statsServiceProvider = Provider<StatsService>((ref) {
 
 // Global provider for the current Sudoku game
 final gameProvider = NotifierProvider<GameNotifier, Game>(() => GameNotifier());
-final themeProvider = NotifierProvider<ThemeNotifier, ThemeMode>(
-  () => ThemeNotifier(),
-);
+
 // Global provider for the GameService
 final gameServiceProvider = Provider<GameService>((ref) {
   final storageService = ref.watch(storageServiceProvider);

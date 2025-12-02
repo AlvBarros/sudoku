@@ -112,11 +112,7 @@ final _darkTheme = ThemeData.dark().copyWith(
   highlightColor: Colors.transparent,
 );
 
-final appThemes = {
-  ThemeMode.system: _lightTheme,
-  ThemeMode.light: _lightTheme,
-  ThemeMode.dark: _darkTheme,
-};
+final appThemes = {Brightness.light: _lightTheme, Brightness.dark: _darkTheme};
 
 const difficultiesColors = {
   SudokuDifficulty.easy: Colors.green,
