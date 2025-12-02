@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sudoku/domain/game.dart';
+import 'package:sudokats/domain/game.dart';
 
-import 'package:sudoku/domain/sudoku.dart';
+import 'package:sudokats/domain/sudoku.dart';
 
-import 'package:sudoku/infra/game.service.dart';
-import 'package:sudoku/infra/stats.service.dart';
-import 'package:sudoku/infra/storage.service.dart';
+import 'package:sudokats/infra/game.service.dart';
+import 'package:sudokats/infra/stats.service.dart';
+import 'package:sudokats/infra/storage.service.dart';
 
 // Notifier for managing the Game state
 class GameNotifier extends Notifier<Game> {

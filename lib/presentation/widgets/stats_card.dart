@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sudoku/presentation/widgets/calendar_stats.dart';
-import 'package:sudoku/presentation/widgets/quick_stats.dart';
+import 'package:sudokats/presentation/widgets/calendar_stats.dart';
+import 'package:sudokats/presentation/widgets/quick_stats.dart';
 
 class StatsCard extends ConsumerStatefulWidget {
   const StatsCard({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sudoku/presentation/images.dart';
-import 'package:sudoku/presentation/widgets/start_game.dart';
-import 'package:sudoku/presentation/widgets/stats_card.dart';
-import 'package:sudoku/presentation/widgets/welcome_title.dart';
+import 'package:sudokats/presentation/images.dart';
+import 'package:sudokats/presentation/widgets/start_game.dart';
+import 'package:sudokats/presentation/widgets/stats_card.dart';
+import 'package:sudokats/presentation/widgets/welcome_title.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

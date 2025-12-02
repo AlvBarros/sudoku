@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sudoku/application/logger.dart';
-import 'package:sudoku/application/providers.dart';
-import 'package:sudoku/domain/game.dart';
-import 'package:sudoku/domain/sudoku.dart';
-import 'package:sudoku/presentation/screens/grid/delete.button.dart';
+import 'package:sudokats/application/logger.dart';
+import 'package:sudokats/application/providers.dart';
+import 'package:sudokats/domain/game.dart';
+import 'package:sudokats/domain/sudoku.dart';
+import 'package:sudokats/presentation/screens/grid/delete.button.dart';
 
-import 'package:sudoku/presentation/screens/grid/exit.button.dart';
-import 'package:sudoku/presentation/screens/grid/ellapsed_time.widget.dart';
-import 'package:sudoku/presentation/screens/grid/game_grid.widget.dart';
-import 'package:sudoku/presentation/screens/grid/numpad.widget.dart';
-import 'package:sudoku/presentation/screens/grid/reset.button.dart';
-import 'package:sudoku/presentation/screens/grid/undo.button.dart';
+import 'package:sudokats/presentation/screens/grid/exit.button.dart';
+import 'package:sudokats/presentation/screens/grid/ellapsed_time.widget.dart';
+import 'package:sudokats/presentation/screens/grid/game_grid.widget.dart';
+import 'package:sudokats/presentation/screens/grid/numpad.widget.dart';
+import 'package:sudokats/presentation/screens/grid/reset.button.dart';
+import 'package:sudokats/presentation/screens/grid/undo.button.dart';
 
 class GridScreen extends ConsumerStatefulWidget {
   const GridScreen({super.key});

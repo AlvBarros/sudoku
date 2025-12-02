@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sudoku/application/providers.dart';
-import 'package:sudoku/domain/stats.dart';
-import 'package:sudoku/presentation/widgets/calendar_stats.dart';
+import 'package:sudokats/application/providers.dart';
+import 'package:sudokats/domain/stats.dart';
+import 'package:sudokats/presentation/widgets/calendar_stats.dart';
 
 class QuickStats extends ConsumerStatefulWidget {
   const QuickStats({super.key});

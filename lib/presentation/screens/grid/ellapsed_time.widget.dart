@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:sudoku/application/providers.dart';
+import 'package:sudokats/application/providers.dart';
 
 class ElapsedTime extends ConsumerStatefulWidget {
   const ElapsedTime({super.key});

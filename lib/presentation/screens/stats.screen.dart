@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sudoku/application/providers.dart';
-import 'package:sudoku/domain/game.dart';
-import 'package:sudoku/domain/sudoku.dart';
+import 'package:sudokats/application/providers.dart';
+import 'package:sudokats/domain/game.dart';
+import 'package:sudokats/domain/sudoku.dart';
 
 class StatsScreen extends ConsumerWidget {
   const StatsScreen({super.key});

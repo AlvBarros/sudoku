@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:sudoku/application/logger.dart';
-import 'package:sudoku/domain/game.dart';
-import 'package:sudoku/domain/stats.dart';
-import 'package:sudoku/domain/sudoku.dart';
-import 'package:sudoku/infra/stats.service.dart';
-import 'package:sudoku/infra/storage.service.dart';
+import 'package:sudokats/application/logger.dart';
+import 'package:sudokats/domain/game.dart';
+import 'package:sudokats/domain/stats.dart';
+import 'package:sudokats/domain/sudoku.dart';
+import 'package:sudokats/infra/stats.service.dart';
+import 'package:sudokats/infra/storage.service.dart';
 
 void _log(String message) => logger.i('[GameService] $message');
 

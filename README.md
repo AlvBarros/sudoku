@@ -15,6 +15,12 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Special Thanks
+
+- David Radcliffe for the Sudoku 3m puzzles dataset ([here](https://www.kaggle.com/datasets/radcliffe/3-million-sudoku-puzzles-with-ratings))
+- Icon Kitchen for the great tool to generate App Icons ([here](https://icon.kitchen/))
+- ChatGPT and Gemini for the cute cat images
+
 ## MVP 1 - Play a Sudoku Game
 
 This first MVP should be able to simply fetch a Grid to play.
@@ -26,4 +32,4 @@ This first MVP should be able to simply fetch a Grid to play.
 - Reset and Exit buttons
 - Undo button
 
-- [Source](https://www.kaggle.com/datasets/radcliffe/3-million-sudoku-puzzles-with-ratings) for Sudoku Grids
+-  for Sudoku Grids

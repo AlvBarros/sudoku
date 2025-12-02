@@ -1,4 +1,4 @@
-import 'package:sudoku/domain/sudoku.dart';
+import 'package:sudokats/domain/sudoku.dart';
 
 class Stats {
   final int totalGamesPlayed;

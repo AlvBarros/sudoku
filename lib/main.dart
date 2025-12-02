@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:sudoku/application/logger.dart';
-import 'package:sudoku/application/providers.dart';
-import 'package:sudoku/presentation/screens/home.screen.dart';
-import 'package:sudoku/presentation/screens/loading.screen.dart';
-import 'package:sudoku/presentation/screens/grid/grid.screen.dart';
-import 'package:sudoku/presentation/screens/stats.screen.dart';
-import 'package:sudoku/presentation/themes.dart';
+import 'package:sudokats/application/logger.dart';
+import 'package:sudokats/application/providers.dart';
+import 'package:sudokats/presentation/screens/home.screen.dart';
+import 'package:sudokats/presentation/screens/loading.screen.dart';
+import 'package:sudokats/presentation/screens/grid/grid.screen.dart';
+import 'package:sudokats/presentation/screens/stats.screen.dart';
+import 'package:sudokats/presentation/themes.dart';
 
 void main() {
   logger.i("App started");

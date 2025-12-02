@@ -13,7 +13,7 @@ class WelcomeTitle extends StatelessWidget {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           TextSpan(
-            text: 'Sudokat',
+            text: 'Sudokats',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,

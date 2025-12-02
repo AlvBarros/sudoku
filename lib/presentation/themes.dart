@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sudoku/domain/sudoku.dart';
+import 'package:sudokats/domain/sudoku.dart';
 
 enum AppTheme { light, dark, system }
 

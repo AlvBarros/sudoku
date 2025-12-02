@@ -1,4 +1,4 @@
-import 'package:sudoku/domain/sudoku.dart';
+import 'package:sudokats/domain/sudoku.dart';
 
 /// Enum to represent tap state pencil or pen.
 /// Pencil mode: Numbers are added to notes.

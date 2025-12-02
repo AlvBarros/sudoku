@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:sudoku/domain/stats.dart';
-import 'package:sudoku/infra/storage/interface.dart';
+import 'package:sudokats/domain/stats.dart';
+import 'package:sudokats/infra/storage/interface.dart';
 
 class StatsStorageKey {
   static const String totalGamesPlayedKey = 'stats_total_games_played';

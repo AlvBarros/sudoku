@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sudoku/application/providers.dart';
-import 'package:sudoku/domain/sudoku.dart';
-import 'package:sudoku/presentation/themes.dart';
+import 'package:sudokats/application/providers.dart';
+import 'package:sudokats/domain/sudoku.dart';
+import 'package:sudokats/presentation/themes.dart';
 
 class StartGame extends ConsumerStatefulWidget {
   const StartGame({super.key});
