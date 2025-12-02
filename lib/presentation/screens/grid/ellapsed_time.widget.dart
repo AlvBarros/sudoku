@@ -41,6 +41,8 @@ class _EllapsedTimeState extends ConsumerState<ElapsedTime> {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
+
     final game = ref.watch(gameProvider);
     if (game.grid.isEmpty) {
       _timer.cancel();
@@ -62,6 +64,6 @@ class _EllapsedTimeState extends ConsumerState<ElapsedTime> {
         .toString()
         .padLeft(2, '0');
 
-    return Text('$minutes:$seconds', style: TextStyle(fontSize: 16));
+    return Text('$minutes:$seconds', style: themeData.textTheme.titleMedium);
   }
 }

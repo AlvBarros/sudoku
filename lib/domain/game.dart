@@ -27,6 +27,7 @@ class Game {
   final SudokuGrid grid;
   final DateTime startedAt;
   final Duration elapsedTime;
+  bool isPerfect = true;
 
   /// A map of cell identifiers to Cell objects.
   /// The key is a string in the format "row_column",
@@ -39,6 +40,7 @@ class Game {
     required this.elapsedTime,
     String answers = '',
     String notes = '',
+    this.isPerfect = true,
   }) {
     if (answers.isNotEmpty) setAnswers(answers);
     if (notes.isNotEmpty) setNotes(notes);
@@ -219,6 +221,7 @@ class Game {
         final gridValue = cells['${r}_$c'];
         final solutionValue = grid.getCellFromSolution(r, c);
         if (gridValue?.value != null && gridValue!.value != solutionValue) {
+          isPerfect = false;
           return false;
         }
       }

@@ -1,4 +1,4 @@
-import 'interace.dart';
+import 'interface.dart';
 
 class StorageServiceFactory {
   static StorageService create() {

@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'interace.dart';
+import 'interface.dart';
 
 class MobileStorageService implements StorageService {
   @override

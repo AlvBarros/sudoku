@@ -9,9 +9,8 @@ class StatsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameNotifier = ref.read(gameProvider.notifier);
-    final completedPuzzles = gameNotifier.getCompletedPuzzles();
-
+    final statsService = ref.watch(statsServiceProvider);
+    final completedPuzzles = statsService.getCompletedGames();
     return Scaffold(
       appBar: AppBar(title: const Text('Statistics')),
       body: FutureBuilder<List<dynamic>>(

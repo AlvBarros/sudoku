@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sudoku/application/logger.dart';
 import 'package:sudoku/domain/game.dart';
+import 'package:sudoku/domain/stats.dart';
 import 'package:sudoku/domain/sudoku.dart';
-import 'package:sudoku/infra/storage_service.dart';
+import 'package:sudoku/infra/stats.service.dart';
+import 'package:sudoku/infra/storage.service.dart';
 
 void _log(String message) => logger.i('[GameService] $message');
 
@@ -16,13 +18,14 @@ class GameStorageKeys {
   static const String currentGameElapsedTimeKey = 'current_game_elapsed_time';
   static const String currentGameAnswersKey = 'current_game_answers';
   static const String currentGameNotesKey = 'current_game_notes';
-  static const String completedGamesKey = 'completed_games';
+  static const String currentGameIsPerfectKey = 'current_game_is_perfect';
 }
 
 class GameService {
   final StorageService storageService;
+  final StatsService statsService;
 
-  GameService({required this.storageService});
+  GameService({required this.storageService, required this.statsService});
 
   Future<SudokuGrid> fetchRandomGrid(SudokuDifficulty difficulty) async {
     final randomFile =
@@ -110,6 +113,7 @@ class GameService {
     await storageService.delete(GameStorageKeys.currentGameElapsedTimeKey);
     await storageService.delete(GameStorageKeys.currentGameAnswersKey);
     await storageService.delete(GameStorageKeys.currentGameNotesKey);
+    await storageService.delete(GameStorageKeys.currentGameIsPerfectKey);
 
     _log('Game deleted from storage');
   }
@@ -146,6 +150,10 @@ class GameService {
       GameStorageKeys.currentGameNotesKey,
       game.getNotes(),
     );
+    await storageService.save(
+      GameStorageKeys.currentGameIsPerfectKey,
+      game.isPerfect.toString(),
+    );
 
     _log('Game saved for grid ${grid.id}');
   }
@@ -175,12 +183,19 @@ class GameService {
       _log('No grid found in storage');
       return null;
     }
+    if (grid.isEmpty) {
+      _log('Stored grid is empty');
+      return null;
+    }
 
     final startedAtStr = await storageService.load(
       GameStorageKeys.currentGameStartedAtKey,
     );
     final elapsedTimeStr = await storageService.load(
       GameStorageKeys.currentGameElapsedTimeKey,
+    );
+    final isPerfectStr = await storageService.load(
+      GameStorageKeys.currentGameIsPerfectKey,
     );
     final answers = await storageService.load(
       GameStorageKeys.currentGameAnswersKey,
@@ -199,6 +214,7 @@ class GameService {
       elapsedTime: Duration(milliseconds: int.parse(elapsedTimeStr)),
       answers: answers ?? '',
       notes: notes ?? '',
+      isPerfect: isPerfectStr == 'true',
     );
   }
 
@@ -249,57 +265,17 @@ class GameService {
   }
 
   Future<void> finishGame(Game game) async {
-    final completedGamesStr =
-        await storageService.load(GameStorageKeys.completedGamesKey) ?? '[]';
-    final completedGames = completedGamesStr.isNotEmpty
-        ? jsonDecode(completedGamesStr) as List<dynamic>
-        : <dynamic>[];
     final now = DateTime.now().toIso8601String();
-    final completedGame = {
-      'gridId': game.grid.id,
-      'difficulty': game.grid.difficulty.toString(),
-      'startedAt': game.startedAt.toIso8601String(),
-      'elapsedTime': game.elapsedTime.inMilliseconds,
-      'completedAt': now,
-    };
-    completedGames.add(completedGame);
-    await storageService.save(
-      GameStorageKeys.completedGamesKey,
-      jsonEncode(completedGames),
+    final completedGame = CompletedGame(
+      gridId: game.grid.id!,
+      difficulty: game.grid.difficulty,
+      startedAt: game.startedAt,
+      elapsedTimeMs: game.elapsedTime.inMilliseconds,
+      completedAt: DateTime.parse(now),
+      isPerfect: game.isPerfect,
     );
+    await statsService.addCompletedGame(completedGame);
     _log('Game for grid ${game.grid.id} marked as completed');
-  }
-
-  Future<List<Game>> getCompletedGames() async {
-    final completedGamesStr =
-        await storageService.load(GameStorageKeys.completedGamesKey) ?? '[]';
-    final completedGames = completedGamesStr.isNotEmpty
-        ? jsonDecode(completedGamesStr) as List<dynamic>
-        : <dynamic>[];
-
-    final games = <Game>[];
-    for (var gameData in completedGames) {
-      final gridId = gameData['gridId'] as String;
-      final difficultyStr = gameData['difficulty'] as String;
-      final startedAtStr = gameData['startedAt'] as String;
-      final elapsedTimeMs = gameData['elapsedTime'] as int;
-
-      final game = Game(
-        grid: SudokuGrid(
-          gridId,
-          SudokuDifficulty.values.firstWhere(
-            (d) => d.toString() == difficultyStr,
-            orElse: () => SudokuDifficulty.unknown,
-          ),
-          List.generate(9, (_) => List.filled(9, 0)),
-          List.generate(9, (_) => List.filled(9, 0)),
-        ),
-        startedAt: DateTime.parse(startedAtStr),
-        elapsedTime: Duration(milliseconds: elapsedTimeMs),
-      );
-      games.add(game);
-    }
-
-    return games;
+    await deleteGame();
   }
 }

@@ -3,11 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudoku/application/providers.dart';
 
 class Numpad extends ConsumerWidget {
+  final int? selectedNumber;
   final Function(int?) onNumberSelection;
-  const Numpad({super.key, required this.onNumberSelection});
+  const Numpad({
+    super.key,
+    required this.onNumberSelection,
+    this.selectedNumber,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeData = Theme.of(context);
     final game = ref.watch(gameProvider);
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -22,6 +28,11 @@ class Numpad extends ConsumerWidget {
                 width: buttonWidth,
                 height: buttonHeight,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: selectedNumber == i
+                        ? themeData.colorScheme.secondary
+                        : themeData.colorScheme.primary,
+                  ),
                   onPressed: () => onNumberSelection(i),
                   child: Stack(
                     children: [

@@ -1,5 +1,5 @@
 import 'package:web/web.dart';
-import 'interace.dart';
+import 'interface.dart';
 
 class WebStorageService implements StorageService {
   @override

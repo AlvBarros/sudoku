@@ -5,16 +5,27 @@ class ExitButton extends StatelessWidget {
   const ExitButton({super.key, required this.onExit});
 
   void _showConfirmationDialog(BuildContext context) {
+    final themeData = Theme.of(context);
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm exit'),
-          content: Text('Are you sure you want to exit the game?'),
+          backgroundColor: themeData.colorScheme.surface,
+          title: Text(
+            'Confirm exit',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
+          content: Text(
+            'Are you sure you want to exit the game?',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: themeData.colorScheme.secondary),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -23,7 +34,10 @@ class ExitButton extends StatelessWidget {
                   onExit!();
                 }
               },
-              child: Text('Confirm'),
+              child: Text(
+                'Confirm',
+                style: TextStyle(color: themeData.colorScheme.secondary),
+              ),
             ),
           ],
         );

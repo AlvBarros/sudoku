@@ -17,14 +17,20 @@ class GameGridWidget extends ConsumerWidget {
   /// Should return the border for each cell, taking into account
   /// the thicker borders for 3x3 quadrants.
   /// Reminder that row and col are 0-indexed.
-  Border getCellBorder(int row, int col) {
+  Border getCellBorder(ThemeData theme, int row, int col) {
     BorderSide topBorder = BorderSide.none,
         bottomBorder = BorderSide.none,
         leftBorder = BorderSide.none,
         rightBorder = BorderSide.none;
 
-    final strongBorder = BorderSide(color: Colors.black, width: 0.8);
-    final lightBorder = BorderSide(color: Colors.black12, width: 0.8);
+    final strongBorder = BorderSide(
+      color: theme.colorScheme.onBackground,
+      width: 0.8,
+    );
+    final lightBorder = BorderSide(
+      color: theme.colorScheme.onBackground.withOpacity(0.12),
+      width: 0.8,
+    );
 
     switch (col) {
       case 0:
@@ -81,7 +87,7 @@ class GameGridWidget extends ConsumerWidget {
   /// displays those values as if the cell itself was a 3x3 grid.
   /// If the user uses "pen" to mark a definite value, this function
   /// displays that value centered in the cell.
-  Widget getCellValue(int row, int col, Game game) {
+  Widget getCellValue(ThemeData theme, int row, int col, Game game) {
     final cell = game.getCell(row, col);
     if (cell.value == null && cell.defaultValue == 0 && cell.notes.isEmpty) {
       return Text('', style: TextStyle(fontSize: 20));
@@ -96,7 +102,10 @@ class GameGridWidget extends ConsumerWidget {
           return Center(
             child: Text(
               cell.notes.contains(noteValue) ? noteValue.toString() : '',
-              style: TextStyle(fontSize: 10, color: Colors.grey),
+              style: TextStyle(
+                fontSize: 10,
+                color: theme.colorScheme.onBackground.withOpacity(0.5),
+              ),
             ),
           );
         }),
@@ -104,14 +113,14 @@ class GameGridWidget extends ConsumerWidget {
     }
 
     FontWeight fontWeight = FontWeight.normal;
-    Color textColor = Colors.black;
+    Color textColor = theme.colorScheme.onBackground;
     if (cell.value != null && cell.defaultValue == 0) {
-      textColor = Colors.purpleAccent;
+      textColor = theme.colorScheme.tertiary;
       fontWeight = FontWeight.bold;
     }
     if (selectedNumber != null && cell.value == selectedNumber ||
         cell.defaultValue == selectedNumber) {
-      textColor = Colors.purple;
+      textColor = theme.colorScheme.secondary;
       fontWeight = FontWeight.bold;
     }
 
@@ -125,58 +134,78 @@ class GameGridWidget extends ConsumerWidget {
 
   /// Returns the background color for the cell,
   /// highlighting the selected cell and its row/column.
-  Color getCellColor(int row, int col, Game game) {
+  Color getCellColor(ThemeData theme, int row, int col, Game game) {
     if (game.shouldHighlightCell(row, col, selectedNumber)) {
-      return Colors.purple.shade100.withAlpha(15);
+      return theme.colorScheme.tertiary.withAlpha(75);
     }
 
     if (selectedCell == null) {
-      return Colors.white;
+      return Colors.transparent;
     }
     if (selectedCell!.row == row && selectedCell!.column == col) {
-      return Colors.purple.shade500.withAlpha(75);
+      return theme.colorScheme.secondary.withAlpha(100);
     }
     if (selectedCell!.row == row || selectedCell!.column == col) {
-      return Colors.purple.shade100.withAlpha(75);
+      return theme.colorScheme.secondary.withAlpha(100);
     }
-    return Colors.white;
+    return Colors.transparent;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeData = Theme.of(context);
     final game = ref.watch(gameProvider);
 
     // Build a matrix for each cell value
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(9, (row) {
-        return Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(9, (col) {
-            return Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) => Container(
-                  decoration: BoxDecoration(
-                    border: getCellBorder(row, col),
-                    color: getCellColor(row, col, game),
-                  ),
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => onCellTap(game.getCell(row, col)),
-                    child: SizedBox(
-                      width: constraints.maxWidth,
-                      height: constraints.maxWidth,
-                      child: Center(child: getCellValue(row, col, game)),
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(9, (row) {
+          return Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(9, (col) {
+              return Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: row == 0 && col == 0
+                          ? const BorderRadius.only(topLeft: Radius.circular(8))
+                          : row == 0 && col == 8
+                          ? const BorderRadius.only(
+                              topRight: Radius.circular(8),
+                            )
+                          : row == 8 && col == 0
+                          ? const BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                            )
+                          : row == 8 && col == 8
+                          ? const BorderRadius.only(
+                              bottomRight: Radius.circular(8),
+                            )
+                          : null,
+                      border: getCellBorder(themeData, row, col),
+                      color: getCellColor(themeData, row, col, game),
+                    ),
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => onCellTap(game.getCell(row, col)),
+                      child: SizedBox(
+                        width: constraints.maxWidth,
+                        height: constraints.maxWidth,
+                        child: Center(
+                          child: getCellValue(themeData, row, col, game),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          }),
-        );
-      }),
+              );
+            }),
+          );
+        }),
+      ),
     );
   }
 }

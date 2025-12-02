@@ -6,10 +6,6 @@ class UndoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      icon: Icon(Icons.undo),
-      label: Text('Undo'),
-      onPressed: () => onUndo(),
-    );
+    return FilledButton(child: Icon(Icons.undo), onPressed: () => onUndo());
   }
 }
