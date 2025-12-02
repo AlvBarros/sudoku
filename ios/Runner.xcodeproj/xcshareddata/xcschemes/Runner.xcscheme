@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-               BuildableName = "Runner.app"
-               BlueprintName = "Runner"
+               BuildableName = "Sudokats.app"
+               BlueprintName = "Sudokats"
                ReferencedContainer = "container:Runner.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,8 +32,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-            BuildableName = "Runner.app"
-            BlueprintName = "Runner"
+            BuildableName = "Sudokats.app"
+            BlueprintName = "Sudokats"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -44,8 +44,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "331C8080294A63A400263BE5"
-               BuildableName = "RunnerTests.xctest"
-               BlueprintName = "RunnerTests"
+               BuildableName = "SudokatsTests.xctest"
+               BlueprintName = "SudokatsTests"
                ReferencedContainer = "container:Runner.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -68,8 +68,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-            BuildableName = "Runner.app"
-            BlueprintName = "Runner"
+            BuildableName = "Sudokats.app"
+            BlueprintName = "Sudokats"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -85,8 +85,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
-            BuildableName = "Runner.app"
-            BlueprintName = "Runner"
+            BuildableName = "Sudokats.app"
+            BlueprintName = "Sudokats"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -96,6 +96,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "Sudokats"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
