@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudokats/application/providers.dart';
 import 'package:sudokats/domain/stats.dart';
+import 'package:sudokats/l10n/app_localizations.dart';
 import 'package:sudokats/presentation/widgets/calendar_stats.dart';
 
 class QuickStats extends ConsumerStatefulWidget {
@@ -62,7 +63,7 @@ class _QuickStatsState extends ConsumerState<QuickStats> {
             ],
           );
         } else {
-          return const Center(child: Text(localizations.statsNoData));
+          return Center(child: Text(localizations.statsNoData));
         }
       },
     );

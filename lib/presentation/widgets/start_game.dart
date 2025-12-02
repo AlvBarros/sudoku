@@ -69,7 +69,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                   });
                 });
               },
-              child: Text(localizations.homeContinueGameButton),
+              child: Text(localizations.homeButtonContinueGameButton),
             ),
           ],
           FilledButton(
@@ -80,7 +80,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text(
-                        localizations.homeNewGameTitle,
+                        localizations.homeStartNewGameButton,
                         style: TextStyle(color: theme.colorScheme.onSurface),
                       ),
                       content: Text(localizations.homeStartNewGamePrompt),

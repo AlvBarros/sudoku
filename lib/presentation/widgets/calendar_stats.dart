@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudokats/application/providers.dart';
 import 'package:intl/intl.dart';
+import 'package:sudokats/l10n/app_localizations.dart';
 
 final AMOUNT_OF_DAYS_PER_MONTH = [
   31,
