@@ -118,8 +118,11 @@ class GameGridWidget extends ConsumerWidget {
       textColor = theme.colorScheme.tertiary;
       fontWeight = FontWeight.bold;
     }
-    if (selectedNumber != null && cell.value == selectedNumber ||
-        cell.defaultValue == selectedNumber) {
+    if ((selectedNumber != null && cell.value == selectedNumber) ||
+        (cell.defaultValue == selectedNumber) ||
+        (selectedCell != null &&
+            (selectedCell!.value == cell.value ||
+                selectedCell!.value == cell.defaultValue))) {
       textColor = theme.colorScheme.secondary;
       fontWeight = FontWeight.bold;
     }
