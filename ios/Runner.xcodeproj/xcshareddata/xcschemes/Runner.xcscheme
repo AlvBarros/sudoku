@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "97C146ED1CF9000F007C117D"
                BuildableName = "Sudokats.app"
-               BlueprintName = "Sudokats"
+               BlueprintName = "Runner"
                ReferencedContainer = "container:Runner.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,7 +33,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
             BuildableName = "Sudokats.app"
-            BlueprintName = "Sudokats"
+            BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -44,8 +44,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "331C8080294A63A400263BE5"
-               BuildableName = "SudokatsTests.xctest"
-               BlueprintName = "SudokatsTests"
+               BuildableName = "RunnerTests.xctest"
+               BlueprintName = "RunnerTests"
                ReferencedContainer = "container:Runner.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -69,7 +69,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
             BuildableName = "Sudokats.app"
-            BlueprintName = "Sudokats"
+            BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -86,7 +86,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "97C146ED1CF9000F007C117D"
             BuildableName = "Sudokats.app"
-            BlueprintName = "Sudokats"
+            BlueprintName = "Runner"
             ReferencedContainer = "container:Runner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

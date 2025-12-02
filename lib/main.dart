@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:sudokats/application/logger.dart';
 import 'package:sudokats/presentation/screens/home.screen.dart';
 import 'package:sudokats/presentation/screens/loading.screen.dart';
 import 'package:sudokats/presentation/screens/grid/grid.screen.dart';
 import 'package:sudokats/presentation/screens/stats.screen.dart';
 import 'package:sudokats/presentation/themes.dart';
+
+import 'l10n/app_localizations.dart';
 
 void main() {
   logger.i("App started");
@@ -21,6 +22,8 @@ class Sudokat extends ConsumerWidget {
     final brightnessMode = MediaQuery.of(context).platformBrightness;
 
     return MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: appThemes[brightnessMode],
       routes: {
         '/loading': (context) => const LoadingScreen(),
