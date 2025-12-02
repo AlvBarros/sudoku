@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
+import 'app_localizations_pt.dart';
 
 // ignore_for_file: type=lint
 
@@ -96,19 +97,158 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('es'),
+    Locale('pt'),
   ];
 
-  /// The conventional newborn programmer greeting
+  /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
-  /// **'Hello World!'**
-  String get helloWorld;
+  /// **'Cancel'**
+  String get cancel;
 
-  /// App started log message
-  String get appStarted;
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
 
-  /// Warning message for checking the grid
-  String get checkGridWarning;
+  /// No description provided for @welcomeTitlePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get welcomeTitlePrefix;
+
+  /// No description provided for @appName.
+  ///
+  /// In en, this message translates to:
+  /// **'Sudokats'**
+  String get appName;
+
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to '**
+  String get welcomeTitle;
+
+  /// No description provided for @welcomeTitlePunctuation.
+  ///
+  /// In en, this message translates to:
+  /// **'!'**
+  String get welcomeTitlePunctuation;
+
+  /// Indicates the number of games played by the user.
+  ///
+  /// In en, this message translates to:
+  /// **'Games played: {count}'**
+  String statsGamesPlayed(Object count);
+
+  /// Indicates the number of perfect games completed by the user.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect games: {count}'**
+  String statsPerfectGames(Object count);
+
+  /// Indicates the average time taken to complete games.
+  ///
+  /// In en, this message translates to:
+  /// **'Average time: {time}'**
+  String statsAverageTime(Object time);
+
+  /// No description provided for @statsNoData.
+  ///
+  /// In en, this message translates to:
+  /// **'No statistics available.'**
+  String get statsNoData;
+
+  /// No description provided for @homeGameInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Game in progress'**
+  String get homeGameInProgress;
+
+  /// No description provided for @homeContinueGamePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to continue your previous game?'**
+  String get homeContinueGamePrompt;
+
+  /// No description provided for @homeButtonContinueGameButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue game'**
+  String get homeButtonContinueGameButton;
+
+  /// No description provided for @homeStartNewGameButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Start new game'**
+  String get homeStartNewGameButton;
+
+  /// No description provided for @homeStartNewGamePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting a new game will erase your current progress. Are you sure you want to continue?'**
+  String get homeStartNewGamePrompt;
+
+  /// No description provided for @homeSelectDifficulty.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Difficulty'**
+  String get homeSelectDifficulty;
+
+  /// Indicates the number of incorrect cells in the current game.
+  ///
+  /// In en, this message translates to:
+  /// **'There are {count} incorrect cells.'**
+  String gameIncorrectCellsAmount(Object count);
+
+  /// No description provided for @gameMistakesExisted.
+  ///
+  /// In en, this message translates to:
+  /// **'There are mistakes in the puzzle.'**
+  String get gameMistakesExisted;
+
+  /// No description provided for @gameCongratulations.
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations!'**
+  String get gameCongratulations;
+
+  /// Message displayed when the game is completed, showing the time taken
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve completed the puzzle in {time}.'**
+  String gameCompletedMessage(Object time);
+
+  /// No description provided for @gameButtonExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Wohoo!'**
+  String get gameButtonExit;
+
+  /// No description provided for @resetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Reset'**
+  String get resetTitle;
+
+  /// No description provided for @resetContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to reset the puzzle? This action cannot be undone.'**
+  String get resetContent;
+
+  /// No description provided for @verifyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lose Perfect Game?'**
+  String get verifyTitle;
+
+  /// No description provided for @verifyContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verifying will forfeit your chance at a perfect game. Do you want to proceed?'**
+  String get verifyContent;
 }
 
 class _AppLocalizationsDelegate
@@ -122,7 +262,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'es'].contains(locale.languageCode);
+      <String>['en', 'es', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -135,6 +275,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'es':
       return AppLocalizationsEs();
+    case 'pt':
+      return AppLocalizationsPt();
   }
 
   throw FlutterError(

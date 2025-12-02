@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudokats/application/providers.dart';
 import 'package:sudokats/domain/sudoku.dart';
+import 'package:sudokats/l10n/app_localizations.dart';
 import 'package:sudokats/presentation/themes.dart';
 
 class StartGame extends ConsumerStatefulWidget {
@@ -37,6 +38,7 @@ class _StartGameState extends ConsumerState<StartGame> {
   }
 
   Widget _continueGame(BuildContext context, WidgetRef ref, bool hasGame) {
+    final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final gameNotifier = ref.read(gameProvider.notifier);
 
@@ -48,13 +50,13 @@ class _StartGameState extends ConsumerState<StartGame> {
         children: [
           if (hasGame) ...[
             Text(
-              'Game in Progress',
+              localizations.homeGameInProgress,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Text(
-              'Would you like to continue your previous game?',
+              localizations.homeContinueGamePrompt,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),
@@ -67,7 +69,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                   });
                 });
               },
-              child: Text('Continue Game'),
+              child: Text(localizations.homeContinueGameButton),
             ),
           ],
           FilledButton(
@@ -78,25 +80,23 @@ class _StartGameState extends ConsumerState<StartGame> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text(
-                        'Start New Game',
+                        localizations.homeNewGameTitle,
                         style: TextStyle(color: theme.colorScheme.onSurface),
                       ),
-                      content: Text(
-                        'Starting a new game will erase your current progress. Are you sure you want to continue?',
-                      ),
+                      content: Text(localizations.homeStartNewGamePrompt),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text('Cancel'),
+                          child: Text(localizations.cancel),
                         ),
                         FilledButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                             _showDifficultyDialog(context, gameNotifier);
                           },
-                          child: Text('Start New Game'),
+                          child: Text(localizations.homeStartNewGameButton),
                         ),
                       ],
                     );
@@ -106,7 +106,7 @@ class _StartGameState extends ConsumerState<StartGame> {
               }
               _showDifficultyDialog(context, gameNotifier);
             },
-            child: Text('Start New Game'),
+            child: Text(localizations.homeStartNewGameButton),
           ),
         ],
       ),
@@ -114,6 +114,7 @@ class _StartGameState extends ConsumerState<StartGame> {
   }
 
   void _showDifficultyDialog(BuildContext context, dynamic gameNotifier) {
+    final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     showDialog(
@@ -121,7 +122,7 @@ class _StartGameState extends ConsumerState<StartGame> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Select Difficulty',
+            localizations.homeSelectDifficulty,
             style: TextStyle(color: theme.colorScheme.onSurface),
           ),
           content: StatefulBuilder(
@@ -167,7 +168,7 @@ class _StartGameState extends ConsumerState<StartGame> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: Text(localizations.cancel),
             ),
             FilledButton(
               onPressed: () {
@@ -179,7 +180,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                   }
                 });
               },
-              child: Text('Start'),
+              child: Text(localizations.homeStartNewGameButton),
             ),
           ],
         );

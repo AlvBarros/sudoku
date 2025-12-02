@@ -23,6 +23,7 @@ class _QuickStatsState extends ConsumerState<QuickStats> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final statsService = ref.read(statsServiceProvider);
 
     return FutureBuilder(
@@ -55,13 +56,13 @@ class _QuickStatsState extends ConsumerState<QuickStats> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Games played: ${stats.totalGamesPlayed}'),
-              Text('Perfect games: $perfectGames'),
-              Text('Average time: ${formatDuration(averageTime)}'),
+              Text(localizations.statsGamesPlayed(stats.totalGamesPlayed)),
+              Text(localizations.statsPerfectGames(perfectGames)),
+              Text(localizations.statsAverageTime(formatDuration(averageTime))),
             ],
           );
         } else {
-          return const Center(child: Text('No data available'));
+          return const Center(child: Text(localizations.statsNoData));
         }
       },
     );

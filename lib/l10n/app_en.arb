@@ -1,7 +1,58 @@
 {
     "@@locale": "en",
-    "helloWorld": "Hello World!",
-    "@helloWorld": {
-        "description": "The conventional newborn programmer greeting"
-    }
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "welcomeTitlePrefix": "",
+    "appName": "Sudokats",
+    "welcomeTitle": "Welcome to ",
+    "welcomeTitlePunctuation": "!",
+    "statsGamesPlayed": "Games played: {count}",
+    "@statsGamesPlayed": {
+        "description": "Indicates the number of games played by the user.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "statsPerfectGames": "Perfect games: {count}",
+    "@statsPerfectGames": {
+        "description": "Indicates the number of perfect games completed by the user.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "statsAverageTime": "Average time: {time}",
+    "@statsAverageTime": {
+        "description": "Indicates the average time taken to complete games.",
+        "placeholders": {
+            "time": {}
+        }
+    },
+    "statsNoData": "No statistics available.",
+    "homeGameInProgress": "Game in progress",
+    "homeContinueGamePrompt": "Would you like to continue your previous game?",
+    "homeButtonContinueGameButton": "Continue game",
+    "homeStartNewGameButton": "Start new game",
+    "homeStartNewGamePrompt": "Starting a new game will erase your current progress. Are you sure you want to continue?",
+    "homeSelectDifficulty": "Select Difficulty",
+    "gameIncorrectCellsAmount": "There are {count} incorrect cells.",
+    "@gameIncorrectCellsAmount": {
+        "description": "Indicates the number of incorrect cells in the current game.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "gameMistakesExisted": "There are mistakes in the puzzle.",
+    "gameCongratulations": "Congratulations!",
+    "gameCompletedMessage": "You've completed the puzzle in {time}.",
+    "@gameCompletedMessage": {
+        "description": "Message displayed when the game is completed, showing the time taken",
+        "placeholders": {
+            "time": {}
+        }
+    },
+    "gameButtonExit": "Wohoo!",
+    "resetTitle": "Confirm Reset",
+    "resetContent": "Are you sure you want to reset the puzzle? This action cannot be undone.",
+    "verifyTitle": "Lose Perfect Game?",
+    "verifyContent": "Verifying will forfeit your chance at a perfect game. Do you want to proceed?"
 }

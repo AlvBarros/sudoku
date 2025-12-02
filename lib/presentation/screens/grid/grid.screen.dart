@@ -4,6 +4,7 @@ import 'package:sudokats/application/logger.dart';
 import 'package:sudokats/application/providers.dart';
 import 'package:sudokats/domain/game.dart';
 import 'package:sudokats/domain/sudoku.dart';
+import 'package:sudokats/l10n/app_localizations.dart';
 import 'package:sudokats/presentation/screens/grid/delete.button.dart';
 
 import 'package:sudokats/presentation/screens/grid/exit.button.dart';
@@ -36,6 +37,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
     GameNotifier gameNotifier,
     Game game,
   ) {
+    final localizations = AppLocalizations.of(context)!;
     final wrongCells = game.checkAndResetIncorrectCells();
     gameNotifier.saveGame(game);
     setState(() {
@@ -43,7 +45,9 @@ class _GridScreenState extends ConsumerState<GridScreen> {
       selectedNumber = null;
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$wrongCells incorrect cells were reset.')),
+      SnackBar(
+        content: Text(localizations.gameIncorrectCellsAmount(wrongCells)),
+      ),
     );
   }
 
@@ -139,6 +143,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     final themeData = Theme.of(context);
     final gameNotifier = ref.read(gameProvider.notifier);
     final game = ref.watch(gameProvider);
@@ -263,9 +268,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                         if (!correct) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(
-                                'There are mistakes in the puzzle.',
-                              ),
+                              content: Text(localizations.gameMistakesExisted),
                             ),
                           );
                           return;
@@ -276,7 +279,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: Text(
-                                'Congratulations!',
+                                localizations.gameCongratulations,
                                 style: TextStyle(
                                   color: themeData.colorScheme.onSurface,
                                 ),
@@ -284,7 +287,11 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                               content: Column(
                                 children: [
                                   Image.asset('assets/images/white_cat_2.png'),
-                                  Text('You have completed the puzzle.'),
+                                  Text(
+                                    localizations.gameCompletedMessage(
+                                      formatElapsedTime(game.elapsedTime),
+                                    ),
+                                  ),
                                 ],
                               ),
                               actions: [
@@ -304,7 +311,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                                       );
                                     }
                                   },
-                                  child: Text('Wohoo!'),
+                                  child: Text(localizations.gameButtonExit),
                                 ),
                               ],
                             ),
@@ -320,5 +327,12 @@ class _GridScreenState extends ConsumerState<GridScreen> {
         ),
       ),
     );
+  }
+
+  String formatElapsedTime(Duration elapsedTime) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(elapsedTime.inMinutes.remainder(60));
+    final seconds = twoDigits(elapsedTime.inSeconds.remainder(60));
+    return '${minutes}, ${seconds}s';
   }
 }

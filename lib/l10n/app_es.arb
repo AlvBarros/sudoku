@@ -1,4 +1,58 @@
 {
     "@@locale": "es",
-    "helloWorld": "¡Hola Mundo!"
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "welcomeTitlePrefix": "¡",
+    "appName": "Sudokats",
+    "welcomeTitle": "Bienvenido(a) a ",
+    "welcomeTitlePunctuation": "!",
+    "statsGamesPlayed": "Juegos jugados: {count}",
+    "@statsGamesPlayed": {
+        "description": "Indicates the number of games played by the user.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "statsPerfectGames": "Juegos perfectos: {count}",
+    "@statsPerfectGames": {
+        "description": "Indicates the number of perfect games completed by the user.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "statsAverageTime": "Tiempo promedio: {time}",
+    "@statsAverageTime": {
+        "description": "Indicates the average time taken to complete games.",
+        "placeholders": {
+            "time": {}
+        }
+    },
+    "statsNoData": "No hay estadísticas disponibles.",
+    "homeGameInProgress": "Juego en progreso",
+    "homeContinueGamePrompt": "¿Te gustaría continuar tu juego anterior?",
+    "homeButtonContinueGameButton": "Continuar juego",
+    "homeStartNewGameButton": "Iniciar nuevo juego",
+    "homeStartNewGamePrompt": "Iniciar un nuevo juego borrará tu progreso actual. ¿Estás seguro de que quieres continuar?",
+    "homeSelectDifficulty": "Seleccionar dificultad",
+    "gameIncorrectCellsAmount": "Hay {count} celdas incorrectas.",
+    "@gameIncorrectCellsAmount": {
+        "description": "Indicates the number of incorrect cells in the current game.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "gameMistakesExisted": "Hay errores en el rompecabezas.",
+    "gameCongratulations": "¡Felicidades!",
+    "gameCompletedMessage": "Has completado el rompecabezas en {time}.",
+    "@gameCompletedMessage": {
+        "description": "Message displayed when the game is completed, showing the time taken",
+        "placeholders": {
+            "time": {}
+        }
+    },
+    "gameButtonExit": "Wohoo!",
+    "resetTitle": "Confirmar reinicio",
+    "resetContent": "¿Estás seguro de que quieres reiniciar el rompecabezas? Esta acción no se puede deshacer.",
+    "verifyTitle": "¿Perder juego perfecto?",
+    "verifyContent": "Verificar hará que pierdas la oportunidad de un juego perfecto. ¿Quieres continuar?"
 }

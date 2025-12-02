@@ -1,0 +1,58 @@
+{
+    "@@locale": "pt",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "welcomeTitlePrefix": "",
+    "appName": "Sudokats",
+    "welcomeTitle": "Bem-vindo(a) ao ",
+    "welcomeTitlePunctuation": "!",
+    "statsGamesPlayed": "Jogos jogados: {count}",
+    "@statsGamesPlayed": {
+        "description": "Indicates the number of games played by the user.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "statsPerfectGames": "Jogos perfeitos: {count}",
+    "@statsPerfectGames": {
+        "description": "Indicates the number of perfect games completed by the user.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "statsAverageTime": "Tempo médio: {time}",
+    "@statsAverageTime": {
+        "description": "Indicates the average time taken to complete games.",
+        "placeholders": {
+            "time": {}
+        }
+    },
+    "statsNoData": "Nenhum dado disponível.",
+    "homeGameInProgress": "Jogo em andamento",
+    "homeContinueGamePrompt": "Você gostaria de continuar seu jogo anterior?",
+    "homeButtonContinueGameButton": "Continuar jogo",
+    "homeStartNewGameButton": "Iniciar novo jogo",
+    "homeStartNewGamePrompt": "Iniciar um novo jogo apagará seu progresso atual. Tem certeza de que deseja continuar?",
+    "homeSelectDifficulty": "Selecionar dificuldade",
+    "gameIncorrectCellsAmount": "Há {count} células incorretas.",
+    "@gameIncorrectCellsAmount": {
+        "description": "Indicates the number of incorrect cells in the current game.",
+        "placeholders": {
+            "count": {}
+        }
+    },
+    "gameMistakesExisted": "Há erros no quebra-cabeça.",
+    "gameCongratulations": "Parabéns!",
+    "gameCompletedMessage": "Você completou o quebra-cabeça em {time}.",
+    "@gameCompletedMessage": {
+        "description": "Message displayed when the game is completed, showing the time taken",
+        "placeholders": {
+            "time": {}
+        }
+    },
+    "gameButtonExit": "Wohoo!",
+    "resetTitle": "Confirmar reinício",
+    "resetContent": "Tem certeza de que deseja reiniciar o quebra-cabeça? Esta ação não pode ser desfeita.",
+    "verifyTitle": "Perder jogo perfeito?",
+    "verifyContent": "Verificar fará com que você perca a chance de um jogo perfeito. Deseja continuar?"
+}
