@@ -70,7 +70,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
     }
   }
 
-  bool handleCellTap(Cell cell, Game game) {
+  void handleCellTap(BuildContext context, Cell cell, Game game) {
     logger.i('Cell tapped: Row ${cell.row}, Column ${cell.column}');
     if (selectedCell == null && selectedNumber != null) {
       logger.i('Number hightlighted: $selectedNumber');
@@ -79,7 +79,8 @@ class _GridScreenState extends ConsumerState<GridScreen> {
         game.handleCellInput(cell, tapState, intValue);
         setState(() {});
       }
-      return game.isGridCompleted();
+      checkGameCompleted(context);
+      return;
     }
     if (selectedCell != null &&
         selectedCell!.row == cell.row &&
@@ -88,13 +89,15 @@ class _GridScreenState extends ConsumerState<GridScreen> {
         selectedNumber = null;
         selectedCell = null;
       });
-      return game.isGridCompleted();
+      checkGameCompleted(context);
+      return;
     }
     setState(() {
       selectedNumber = null;
       selectedCell = cell;
     });
-    return game.isGridCompleted();
+    checkGameCompleted(context);
+    return;
   }
 
   void handleErase(Game game) {
@@ -107,20 +110,22 @@ class _GridScreenState extends ConsumerState<GridScreen> {
     }
   }
 
-  bool handleValueSubmit(int? value, Game game) {
+  void handleValueSubmit(BuildContext context, int? value, Game game) {
     if (selectedCell == null) {
       logger.i('Number hightlighted: $value');
       if (selectedNumber == value) {
         setState(() {
           selectedNumber = null;
         });
-        return game.isGridCompleted();
+        checkGameCompleted(context);
+        return;
       }
       setState(() {
         selectedCell = null;
         selectedNumber = value;
       });
-      return game.isGridCompleted();
+      checkGameCompleted(context);
+      return;
     }
     logger.i('Value submitted: $value');
     final intValue = value ?? 0;
@@ -138,12 +143,70 @@ class _GridScreenState extends ConsumerState<GridScreen> {
       }
     }
 
-    return game.isGridCompleted();
+    checkGameCompleted(context);
+    return;
+  }
+
+  void checkGameCompleted(BuildContext context) {
+    final gameNotifier = ref.read(gameProvider.notifier);
+    final game = ref.watch(gameProvider);
+
+    if (!game.isGridCompleted()) {
+      return;
+    }
+
+    final localizations = AppLocalizations.of(context)!;
+    final themeData = Theme.of(context);
+    final correct = game.isGameCorrect();
+    if (!correct) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(localizations.gameMistakesExisted)),
+      );
+      return;
+    }
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            localizations.gameCongratulations,
+            style: TextStyle(color: themeData.colorScheme.onSurface),
+          ),
+          content: Column(
+            children: [
+              Image.asset('assets/images/white_cat_2.png'),
+              Text(
+                localizations.gameCompletedMessage(
+                  formatElapsedTime(game.elapsedTime),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                gameNotifier.finishGame();
+                setState(() {
+                  selectedCell = null;
+                  selectedNumber = null;
+                });
+                if (mounted) {
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil('/home', (route) => false);
+                }
+              },
+              child: Text(localizations.gameButtonExit),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
     final themeData = Theme.of(context);
     final gameNotifier = ref.read(gameProvider.notifier);
     final game = ref.watch(gameProvider);
@@ -190,7 +253,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                 child: GameGridWidget(
                   selectedNumber: selectedNumber,
                   selectedCell: selectedCell,
-                  onCellTap: (cell) => handleCellTap(cell, game),
+                  onCellTap: (cell) => handleCellTap(context, cell, game),
                 ),
               ),
               Padding(
@@ -260,65 +323,8 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Numpad(
                     selectedNumber: selectedNumber,
-                    onNumberSelection: (number) {
-                      final completed = handleValueSubmit(number, game);
-                      gameNotifier.saveGame(game);
-                      if (completed) {
-                        final correct = game.isGameCorrect();
-                        if (!correct) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(localizations.gameMistakesExisted),
-                            ),
-                          );
-                          return;
-                        }
-                        Future.delayed(const Duration(milliseconds: 300), () {
-                          if (!mounted) return;
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                localizations.gameCongratulations,
-                                style: TextStyle(
-                                  color: themeData.colorScheme.onSurface,
-                                ),
-                              ),
-                              content: Column(
-                                children: [
-                                  Image.asset('assets/images/white_cat_2.png'),
-                                  Text(
-                                    localizations.gameCompletedMessage(
-                                      formatElapsedTime(game.elapsedTime),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    gameNotifier.finishGame();
-                                    setState(() {
-                                      selectedCell = null;
-                                      selectedNumber = null;
-                                    });
-                                    if (mounted) {
-                                      Navigator.of(
-                                        context,
-                                      ).pushNamedAndRemoveUntil(
-                                        '/home',
-                                        (route) => false,
-                                      );
-                                    }
-                                  },
-                                  child: Text(localizations.gameButtonExit),
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                      }
-                    },
+                    onNumberSelection: (number) =>
+                        handleValueSubmit(context, number, game),
                   ),
                 ),
               ),
@@ -333,6 +339,6 @@ class _GridScreenState extends ConsumerState<GridScreen> {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(elapsedTime.inMinutes.remainder(60));
     final seconds = twoDigits(elapsedTime.inSeconds.remainder(60));
-    return '${minutes}, ${seconds}s';
+    return '${minutes}m ${seconds}s';
   }
 }

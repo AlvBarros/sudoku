@@ -216,17 +216,11 @@ class Game {
   }
 
   bool isGameCorrect() {
-    for (var r = 0; r < 9; r++) {
-      for (var c = 0; c < 9; c++) {
-        final gridValue = cells['${r}_$c'];
-        final solutionValue = grid.getCellFromSolution(r, c);
-        if (gridValue?.value != null && gridValue!.value != solutionValue) {
-          isPerfect = false;
-          return false;
-        }
-      }
+    final solved = grid.isSolved();
+    if (isPerfect && !solved) {
+      isPerfect = false;
     }
-    return true;
+    return solved;
   }
 
   /// This method sets this game's answers with
