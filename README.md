@@ -17,7 +17,8 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Special Thanks
 
-- David Radcliffe for the Sudoku 3m puzzles dataset ([here](https://www.kaggle.com/datasets/radcliffe/3-million-sudoku-puzzles-with-ratings))
+- ~~David Radcliffe for the Sudoku 3m puzzles dataset ([here](https://www.kaggle.com/datasets/radcliffe/3-million-sudoku-puzzles-with-ratings))~~ Removed since the difficulty ratings were not super reliable
+- sapientinc/sudoku-extreme on [HuggingFace](https://huggingface.co/datasets/sapientinc/sudoku-extreme)
 - Icon Kitchen for the great tool to generate App Icons ([here](https://icon.kitchen/))
 - ChatGPT and Gemini for the cute cat images
 

@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from datasets import load_dataset
 
 ID = 'id'
 GRID = 'puzzle'
@@ -7,51 +8,50 @@ SOLUTION = 'solution'
 CLUES = 'clues'
 DIFFICULTY = 'difficulty'
 
+# Define the difficulty label column name
+DIFFICULTY_LABEL = 'difficulty_label'
+
 # Create data folder if it doesn't exist
+print('Setting up data folder')
 if not os.path.exists('data'):
     os.makedirs('data')
+else:
+    for file in os.listdir('data'):
+        file_path = os.path.join('data', file)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
-# Check if `puzzles.csv` already exists
-if not os.path.exists('puzzles.csv'):    
-    # Temporarily download raw data from Kaggle
-    # https://www.kaggle.com/datasets/radcliffe/3-million-sudoku-puzzles-with-ratings
-    import kaggle
-    from kaggle.api.kaggle_api_extended import KaggleApi
-    api = KaggleApi()
-    api.authenticate()
-    api.dataset_download_files('radcliffe/3-million-sudoku-puzzles-with-ratings', unzip=True)
 
-    # Read the CSV file
-    df = pd.read_csv('sudoku-3m.csv').drop_duplicates(subset=[GRID])
+# Load the new dataset from Hugging Face
+print('Downloading and processing dataset')
+dataset = load_dataset('sapientinc/sudoku-extreme')
+df = pd.DataFrame(dataset['train'])
+df.rename(columns={
+    'source': ID,
+    'question': GRID,
+    'answer': SOLUTION,
+    'rating': DIFFICULTY
+}, inplace=True)
 
-    # Break the difficulties into bins
-    DIFFICULTY_LABEL = 'difficulty_label'
-    min_diff = df[DIFFICULTY].min()
-    max_diff = df[DIFFICULTY].max()
-    difficulty_bins = [min_diff, 0.25 * max_diff, 0.5 * max_diff, 0.75 * max_diff, max_diff]
-    difficulty_labels = ['easy', 'medium', 'hard', 'expert']
-    df[DIFFICULTY_LABEL] = pd.cut(df[DIFFICULTY], bins=difficulty_bins, labels=difficulty_labels, include_lowest=True)
-
-    # Save the processed data to a new CSV file
-    df.to_csv('puzzles.csv', index=False)
-
-df = pd.read_csv('puzzles.csv')
-DIFFICULTY_LABEL = 'difficulty_label'
+# Split the sorted DataFrame into 4 equal parts
+difficulty_labels = ['easy', 'medium', 'hard', 'expert']
+sorted_df = df.sort_values(by=DIFFICULTY).reset_index(drop=True)
+split_indices = [len(sorted_df) // 4 * i for i in range(1, 4)]
+sorted_df[DIFFICULTY_LABEL] = pd.cut(
+    sorted_df.index,
+    bins=[-1] + split_indices + [len(sorted_df) - 1],
+    labels=difficulty_labels
+)
 
 # For each difficulty label, create a separate folder named after that difficulty
 # Then create 10 JSON files for each 100 puzzles in that difficulty
-# e.g., data/easy/1.json, data/easy/2.json, ...
-for difficulty in df[DIFFICULTY_LABEL].unique():
-    subset = df[df[DIFFICULTY_LABEL] == difficulty]
+for difficulty in sorted_df[DIFFICULTY_LABEL].unique():
+    subset = sorted_df[sorted_df[DIFFICULTY_LABEL] == difficulty]
     subset = subset.sample(frac=1).reset_index(drop=True)
     subset = subset.head(1000)
     for i in range(10):
         print(f'Processing {difficulty} - file {i+1}')
         chunk = subset.iloc[i*100:(i+1)*100]
         chunk.to_json(f'data/{difficulty}_{i+1}.json', orient='records', lines=False)
-
-# Delete the temporary CSV file
-os.remove('sudoku-3m.csv')
-os.remove('puzzles.csv')
 
 print('Data setup complete.')
