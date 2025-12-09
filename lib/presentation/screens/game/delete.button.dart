@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sudokats/application/utils.dart';
 
 class DeleteButton extends StatelessWidget {
   final VoidCallback onDelete;
@@ -6,6 +7,12 @@ class DeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(onPressed: onDelete, child: Icon(Icons.delete));
+    return IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: () async {
+        await vibrationFeedback();
+        onDelete();
+      },
+    );
   }
 }

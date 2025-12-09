@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:sudokats/application/providers.dart';
 import 'package:sudokats/domain/game.dart';
 

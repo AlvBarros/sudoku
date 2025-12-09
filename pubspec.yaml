@@ -21,6 +21,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  vibration: ^3.1.4
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +44,10 @@ flutter:
     - assets/images/difficulty_medium.png
     - assets/images/difficulty_hard.png
     - assets/images/difficulty_expert.png
+    - assets/images/paw-orange.png
+    - assets/images/paw-purple.png
+    - assets/images/arm-white.png
+    - assets/images/arm-black.png
 
 flutter_icons:
   ios: true

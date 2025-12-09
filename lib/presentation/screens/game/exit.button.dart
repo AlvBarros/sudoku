@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sudokats/application/utils.dart';
 
 class ExitButton extends StatelessWidget {
   final Function()? onExit;
@@ -48,7 +49,10 @@ class ExitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => _showConfirmationDialog(context),
+      onPressed: () async {
+        await vibrationFeedback();
+        _showConfirmationDialog(context);
+      },
       icon: const Icon(Icons.logout),
     );
   }

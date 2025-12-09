@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sudokats/application/utils.dart';
+
 import 'package:sudokats/l10n/app_localizations.dart';
 
 class ResetButton extends StatelessWidget {
@@ -12,8 +14,14 @@ class ResetButton extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(localizations.resetTitle),
-          content: Text(localizations.resetContent),
+          title: Text(
+            localizations.resetTitle,
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
+          content: Text(
+            localizations.resetContent,
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -37,7 +45,10 @@ class ResetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => _showConfirmationDialog(context),
+      onPressed: () async {
+        await vibrationFeedback();
+        _showConfirmationDialog(context);
+      },
       icon: const Icon(Icons.refresh),
     );
   }

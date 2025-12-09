@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:sudokats/application/logger.dart';
 import 'package:sudokats/application/providers.dart';
+import 'package:sudokats/application/utils.dart';
 import 'package:sudokats/domain/game.dart';
 import 'package:sudokats/domain/sudoku.dart';
 import 'package:sudokats/l10n/app_localizations.dart';
-import 'package:sudokats/presentation/screens/grid/delete.button.dart';
+import 'package:vibration/vibration.dart';
+import 'package:vibration/vibration_presets.dart';
 
-import 'package:sudokats/presentation/screens/grid/exit.button.dart';
-import 'package:sudokats/presentation/screens/grid/ellapsed_time.widget.dart';
-import 'package:sudokats/presentation/screens/grid/game_grid.widget.dart';
-import 'package:sudokats/presentation/screens/grid/numpad.widget.dart';
-import 'package:sudokats/presentation/screens/grid/reset.button.dart';
-import 'package:sudokats/presentation/screens/grid/undo.button.dart';
-import 'package:sudokats/presentation/screens/grid/verify.button.dart';
+import 'widgets.dart';
 
 class GridScreen extends ConsumerStatefulWidget {
   const GridScreen({super.key});
@@ -110,9 +107,29 @@ class _GridScreenState extends ConsumerState<GridScreen> {
     }
   }
 
-  void handleValueSubmit(BuildContext context, int? value, Game game) {
+  void handleUndo(Game game, GameNotifier gameNotifier) {
+    game.runUndoCell();
+    gameNotifier.saveGame(game);
+    setState(() {
+      if (selectedCell != null) {
+        selectedCell = game.getCell(selectedCell!.row, selectedCell!.column);
+      }
+    });
+  }
+
+  Future<void> handleNumberSelection(
+    BuildContext context,
+    int? value,
+    TapDownDetails details,
+    Game game,
+  ) async {
     if (selectedCell == null) {
       logger.i('Number hightlighted: $value');
+
+      final catArmNotifier = ref.read(catArmProvider.notifier);
+      catArmNotifier.tap(details.globalPosition);
+      await vibrationFeedback();
+
       if (selectedNumber == value) {
         setState(() {
           selectedNumber = null;
@@ -147,7 +164,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
     return;
   }
 
-  void checkGameCompleted(BuildContext context) {
+  Future<void> checkGameCompleted(BuildContext context) async {
     final gameNotifier = ref.read(gameProvider.notifier);
     final game = ref.watch(gameProvider);
 
@@ -159,11 +176,13 @@ class _GridScreenState extends ConsumerState<GridScreen> {
     final themeData = Theme.of(context);
     final correct = game.isGameCorrect();
     if (!correct) {
+      await Vibration.vibrate(preset: VibrationPreset.dramaticNotification);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(localizations.gameMistakesExisted)),
       );
       return;
     }
+    await Vibration.vibrate(preset: VibrationPreset.longAlarmBuzz);
     Future.delayed(const Duration(milliseconds: 300), () {
       if (!mounted) return;
       showDialog(
@@ -211,102 +230,105 @@ class _GridScreenState extends ConsumerState<GridScreen> {
     final gameNotifier = ref.read(gameProvider.notifier);
     final game = ref.watch(gameProvider);
     return Scaffold(
-      body: Container(
-        color: themeData.scaffoldBackgroundColor,
-        child: SafeArea(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Center(
-                      child: Text(
-                        game.grid.difficulty != SudokuDifficulty.unknown
-                            ? game.grid.difficulty
-                                  .toString()
-                                  .split('.')
-                                  .last
-                                  .toUpperCase()
-                            : '',
-                        style: themeData.textTheme.bodyLarge,
+      body: CatArmOverlay(
+        child: Container(
+          color: themeData.scaffoldBackgroundColor,
+          child: SafeArea(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          game.grid.difficulty != SudokuDifficulty.unknown
+                              ? game.grid.difficulty
+                                    .toString()
+                                    .split('.')
+                                    .last
+                                    .toUpperCase()
+                              : '',
+                          style: themeData.textTheme.bodyLarge,
+                        ),
                       ),
                     ),
+                    Expanded(child: Center(child: ElapsedTime())),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GameGridWidget(
+                    selectedNumber: selectedNumber,
+                    selectedCell: selectedCell,
+                    onCellTap: (cell) => handleCellTap(context, cell, game),
                   ),
-                  Expanded(child: Center(child: ElapsedTime())),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        VerifyButton(
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 4.0,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: VerifyButton(
                           onConfirm: () =>
                               handleConfirm(context, gameNotifier, game),
                         ),
-                        ResetButton(onReset: () => handleReset(gameNotifier)),
-                        ExitButton(onExit: () => handleExit(gameNotifier)),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: ResetButton(
+                          onReset: () => handleReset(gameNotifier),
+                        ),
+                      ),
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: ExitButton(
+                          onExit: () => handleExit(gameNotifier),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GameGridWidget(
-                  selectedNumber: selectedNumber,
-                  selectedCell: selectedCell,
-                  onCellTap: (cell) => handleCellTap(context, cell, game),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 16.0,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 4.0,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
                         child: UndoButton(
-                          onUndo: () {
-                            game.runUndoCell();
-                            gameNotifier.saveGame(game);
-                            setState(() {
-                              if (selectedCell != null) {
-                                selectedCell = game.getCell(
-                                  selectedCell!.row,
-                                  selectedCell!.column,
-                                );
-                              }
-                            });
-                          },
+                          onUndo: () => handleUndo(game, gameNotifier),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: ToggleButtons(
-                          borderRadius: BorderRadius.circular(32.0),
-                          isSelected: [
-                            tapState == TapState.pencil,
-                            tapState == TapState.pen,
-                          ],
-                          onPressed: (index) {
-                            setState(() {
-                              tapState = index == 0
-                                  ? TapState.pencil
-                                  : TapState.pen;
-                            });
-                          },
-                          children: [
-                            Icon(Icons.create_outlined),
-                            Icon(Icons.create),
-                          ],
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: Center(
+                          child: ToggleButtons(
+                            borderRadius: BorderRadius.circular(32.0),
+                            isSelected: [
+                              tapState == TapState.pencil,
+                              tapState == TapState.pen,
+                            ],
+                            onPressed: (index) async {
+                              await vibrationFeedback();
+                              setState(() {
+                                tapState = index == 0
+                                    ? TapState.pencil
+                                    : TapState.pen;
+                              });
+                            },
+                            children: [
+                              Icon(Icons.create_outlined),
+                              Icon(Icons.create),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      const SizedBox(width: 16.0),
+                      Expanded(
                         child: DeleteButton(
                           onDelete: () {
                             handleErase(game);
@@ -314,21 +336,26 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                           },
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Numpad(
-                    selectedNumber: selectedNumber,
-                    onNumberSelection: (number) =>
-                        handleValueSubmit(context, number, game),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Numpad(
+                      selectedNumber: selectedNumber,
+                      onNumberSelection: (number, details) async =>
+                          await handleNumberSelection(
+                            context,
+                            number,
+                            details,
+                            game,
+                          ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

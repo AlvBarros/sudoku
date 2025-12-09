@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudokats/application/logger.dart';
 import 'package:sudokats/presentation/screens/home.screen.dart';
 import 'package:sudokats/presentation/screens/loading.screen.dart';
-import 'package:sudokats/presentation/screens/grid/grid.screen.dart';
+import 'package:sudokats/presentation/screens/game/grid.screen.dart';
 import 'package:sudokats/presentation/screens/stats.screen.dart';
 import 'package:sudokats/presentation/themes.dart';
 
