@@ -3,7 +3,7 @@ export 'delete.button.dart';
 export 'ellapsed_time.widget.dart';
 export 'exit.button.dart';
 export 'game_grid.widget.dart';
-export 'grid.screen.dart';
+export 'game.screen.dart';
 export 'numpad.widget.dart';
 export 'reset.button.dart';
 export 'undo.button.dart';

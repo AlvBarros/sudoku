@@ -54,57 +54,54 @@ class _CatArmOverlayState extends ConsumerState<CatArmOverlay>
   Widget build(BuildContext context) {
     final armPosition = ref.watch(catArmProvider);
 
-    // Only run the animation if the new position is different from the last
+    final isLightMode = Theme.of(context).brightness == Brightness.light;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final comeFromTheRight = armPosition.dx > screenWidth / 2;
+
+    final startingPoint = Offset(
+      comeFromTheRight ? screenWidth + 300 : -300,
+      armPosition.dy - 125,
+    );
+    final endingPoint = Offset(
+      comeFromTheRight ? armPosition.dx : armPosition.dx - 150,
+      armPosition.dy - 125,
+    );
+    final animationTween = Tween<Offset>(
+      begin: startingPoint,
+      end: endingPoint,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
     if (_lastOffset != armPosition) {
-      _lastOffset = armPosition; // Update the last offset
-
-      final isLightMode = Theme.of(context).brightness == Brightness.light;
-      final screenWidth = MediaQuery.of(context).size.width;
-      final comeFromTheRight = armPosition.dx > screenWidth / 2;
-
-      final startingPoint = Offset(
-        comeFromTheRight ? screenWidth + 300 : -300,
-        armPosition.dy - 125,
-      );
-      final endingPoint = Offset(
-        comeFromTheRight ? armPosition.dx : armPosition.dx - 150,
-        armPosition.dy - 125,
-      );
-      final animationTween = Tween<Offset>(
-        begin: startingPoint,
-        end: endingPoint,
-      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+      _lastOffset = armPosition;
       _controller.forward(from: 0.0);
-
-      return Stack(
-        children: [
-          widget.child,
-          GestureDetector(
-            behavior: HitTestBehavior.deferToChild,
-            child: AnimatedBuilder(
-              animation: animationTween,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: animationTween.value, // Use the animated offset
-                  child: Transform.rotate(
-                    angle: !comeFromTheRight
-                        ? 90 * 3.1416 / 180
-                        : 270 * 3.1416 / 180,
-                    child: Image.asset(
-                      isLightMode
-                          ? 'assets/images/arm-black.png'
-                          : 'assets/images/arm-white.png',
-                      width: 150,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      );
     }
 
-    return widget.child; // Return the child if no animation is needed
+    return Stack(
+      children: [
+        widget.child,
+        GestureDetector(
+          behavior: HitTestBehavior.deferToChild,
+          child: AnimatedBuilder(
+            animation: animationTween,
+            builder: (context, child) {
+              return Transform.translate(
+                offset: animationTween.value, // Use the animated offset
+                child: Transform.rotate(
+                  angle: !comeFromTheRight
+                      ? 90 * 3.1416 / 180
+                      : 270 * 3.1416 / 180,
+                  child: Image.asset(
+                    isLightMode
+                        ? 'assets/images/arm-black.png'
+                        : 'assets/images/arm-white.png',
+                    width: 150,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

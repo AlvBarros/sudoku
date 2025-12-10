@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudokats/application/providers.dart';
 import 'package:sudokats/domain/sudoku.dart';
 import 'package:sudokats/l10n/app_localizations.dart';
+import 'package:sudokats/main.dart';
 import 'package:sudokats/presentation/themes.dart';
 
 class StartGame extends ConsumerStatefulWidget {
@@ -65,7 +66,7 @@ class _StartGameState extends ConsumerState<StartGame> {
               onPressed: () {
                 gameNotifier.loadGame().then((_) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Navigator.of(context).pushReplacementNamed('/grid');
+                    Navigator.of(context).pushReplacementNamed(Routes.game);
                   });
                 });
               },
@@ -175,7 +176,7 @@ class _StartGameState extends ConsumerState<StartGame> {
                 gameNotifier.newGame(_selectedDifficulty).then((value) {
                   if (mounted) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Navigator.of(context).pushReplacementNamed('/grid');
+                      Navigator.of(context).pushReplacementNamed(Routes.game);
                     });
                   }
                 });

@@ -7,19 +7,20 @@ import 'package:sudokats/application/utils.dart';
 import 'package:sudokats/domain/game.dart';
 import 'package:sudokats/domain/sudoku.dart';
 import 'package:sudokats/l10n/app_localizations.dart';
+import 'package:sudokats/main.dart';
 import 'package:vibration/vibration.dart';
 import 'package:vibration/vibration_presets.dart';
 
 import 'widgets.dart';
 
-class GridScreen extends ConsumerStatefulWidget {
-  const GridScreen({super.key});
+class GameScreen extends ConsumerStatefulWidget {
+  const GameScreen({super.key});
 
   @override
-  ConsumerState<GridScreen> createState() => _GridScreenState();
+  ConsumerState<GameScreen> createState() => _GameScreenState();
 }
 
-class _GridScreenState extends ConsumerState<GridScreen> {
+class _GameScreenState extends ConsumerState<GameScreen> {
   TapState tapState = TapState.pen;
   int? selectedNumber;
   Cell? selectedCell;
@@ -36,6 +37,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
   ) {
     final localizations = AppLocalizations.of(context)!;
     final wrongCells = game.checkAndResetIncorrectCells();
+    game.isPerfect = false;
     gameNotifier.saveGame(game);
     setState(() {
       selectedCell = null;
@@ -63,7 +65,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
       selectedNumber = null;
     });
     if (mounted) {
-      Navigator.of(context).pushReplacementNamed('/home');
+      Navigator.of(context).pushReplacementNamed(Routes.home);
     }
   }
 
@@ -213,7 +215,7 @@ class _GridScreenState extends ConsumerState<GridScreen> {
                 if (mounted) {
                   Navigator.of(
                     context,
-                  ).pushNamedAndRemoveUntil('/home', (route) => false);
+                  ).pushNamedAndRemoveUntil(Routes.home, (route) => false);
                 }
               },
               child: Text(localizations.gameButtonExit),

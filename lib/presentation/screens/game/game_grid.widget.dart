@@ -19,6 +19,16 @@ class GameGridWidget extends ConsumerWidget {
   /// the thicker borders for 3x3 quadrants.
   /// Reminder that row and col are 0-indexed.
   Border getCellBorder(ThemeData theme, int row, int col) {
+    if (selectedCell != null &&
+        selectedCell!.row == row &&
+        selectedCell!.column == col) {
+      return Border.all(
+        color: theme.colorScheme.secondary,
+        width: 3.0,
+        strokeAlign: BorderSide.strokeAlignOutside,
+      );
+    }
+
     BorderSide topBorder = BorderSide.none,
         bottomBorder = BorderSide.none,
         leftBorder = BorderSide.none,

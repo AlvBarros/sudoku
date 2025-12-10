@@ -3,11 +3,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudokats/application/logger.dart';
 import 'package:sudokats/presentation/screens/home.screen.dart';
 import 'package:sudokats/presentation/screens/loading.screen.dart';
-import 'package:sudokats/presentation/screens/game/grid.screen.dart';
+import 'package:sudokats/presentation/screens/game/game.screen.dart';
 import 'package:sudokats/presentation/screens/stats.screen.dart';
 import 'package:sudokats/presentation/themes.dart';
 
 import 'l10n/app_localizations.dart';
+
+class Routes {
+  static final loading = '/loading';
+  static final home = '/home';
+  static final stats = '/stats';
+  static final game = '/game';
+}
+
+Map<String, Widget Function(BuildContext)> routes = <String, WidgetBuilder>{
+  Routes.loading: (context) => const LoadingScreen(),
+  Routes.home: (context) => const HomeScreen(),
+  Routes.stats: (context) => const StatsScreen(),
+  Routes.game: (context) => const GameScreen(),
+};
 
 void main() {
   logger.i("App started");
@@ -25,13 +39,8 @@ class Sudokat extends ConsumerWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       theme: appThemes[brightnessMode],
-      routes: {
-        '/loading': (context) => const LoadingScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/stats': (context) => const StatsScreen(),
-        '/grid': (context) => const GridScreen(),
-      },
-      initialRoute: '/loading',
+      routes: routes,
+      initialRoute: Routes.loading,
     );
   }
 }

@@ -334,7 +334,7 @@ class Game {
         if (cell != null &&
             cell.value != null &&
             cell.value != grid.getCellFromSolution(r, c)) {
-          cell.value = cell.defaultValue;
+          cell.value = null;
           wrongCellsCount++;
         }
       }

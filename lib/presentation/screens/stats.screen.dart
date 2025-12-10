@@ -4,6 +4,8 @@ import 'package:sudokats/application/providers.dart';
 import 'package:sudokats/domain/game.dart';
 import 'package:sudokats/domain/sudoku.dart';
 
+/// @deprecated
+/// This screen is deactivated.
 class StatsScreen extends ConsumerWidget {
   const StatsScreen({super.key});
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sudokats/application/providers.dart';
 import 'package:sudokats/domain/game.dart';
+import 'package:sudokats/main.dart';
 
 class LoadingScreen extends ConsumerWidget {
   const LoadingScreen({super.key});
@@ -29,7 +30,7 @@ class LoadingScreen extends ConsumerWidget {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.of(context).pushReplacementNamed(Routes.home);
           });
         }
         return Scaffold(body: Center(child: CircularProgressIndicator()));

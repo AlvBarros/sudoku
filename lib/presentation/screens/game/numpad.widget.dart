@@ -75,62 +75,60 @@ class _NumberButtonState extends ConsumerState<_NumberButton> {
     final isLightMode =
         MediaQuery.of(context).platformBrightness == Brightness.light;
 
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTapDown: widget.onTapDown,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: AnimatedOpacity(
-                opacity: widget.isSelected ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 150),
-                child: Image.asset(
-                  isLightMode
-                      ? 'assets/images/paw-orange.png'
-                      : 'assets/images/paw-purple.png',
-                  height: 56,
-                ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTapDown: widget.onTapDown,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: AnimatedOpacity(
+              opacity: widget.isSelected ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 150),
+              child: Image.asset(
+                isLightMode
+                    ? 'assets/images/paw-orange.png'
+                    : 'assets/images/paw-purple.png',
+                height: 56,
               ),
             ),
-            Center(
-              child: Stack(
-                children: [
-                  // Outline text
-                  Visibility(
-                    visible: widget.isSelected,
-                    child: Text(
-                      widget.number.toString(),
-                      style: TextStyle(
-                        fontSize: textTheme.headlineMedium?.fontSize,
-                        fontWeight: FontWeight.bold,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth =
-                              2.0 // Thickness of the outline
-                          ..color = widget.isSelected
-                              ? Colors.black
-                              : colorScheme.onSecondary,
-                      ),
-                    ),
-                  ),
-                  // Inner text
-                  Text(
+          ),
+          Center(
+            child: Stack(
+              children: [
+                // Outline text
+                Visibility(
+                  visible: widget.isSelected,
+                  child: Text(
                     widget.number.toString(),
                     style: TextStyle(
                       fontSize: textTheme.headlineMedium?.fontSize,
                       fontWeight: FontWeight.bold,
-                      color: widget.isSelected
-                          ? colorScheme.onSecondary
-                          : colorScheme.onSurface,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth =
+                            2.0 // Thickness of the outline
+                        ..color = widget.isSelected
+                            ? Colors.black
+                            : colorScheme.onSecondary,
                     ),
                   ),
-                ],
-              ),
+                ),
+                // Inner text
+                Text(
+                  widget.number.toString(),
+                  style: TextStyle(
+                    fontSize: textTheme.headlineMedium?.fontSize,
+                    fontWeight: FontWeight.bold,
+                    color: widget.isSelected
+                        ? colorScheme.onSecondary
+                        : colorScheme.onSurface,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
